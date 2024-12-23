@@ -75,4 +75,18 @@ public class OrderService {
         }
         ordersRepository.deleteById(id);
     }
+
+    @Transactional
+    public void approveOrder(int orderId) {
+        Optional<Orders> orderOptional = ordersRepository.findById(orderId);
+
+        if (!orderOptional.isPresent()) {
+            throw new IllegalArgumentException("Order with ID " + orderId + " does not exist.");
+        }
+
+        Orders order = orderOptional.get();
+        order.setApproved(true); // Set approved to true
+        ordersRepository.save(order); // Save the updated order
+    }
+
 }

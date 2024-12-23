@@ -1,1 +1,30 @@
-<p>commands-page works!</p>
+<div class="container py-5">
+  <h1 class="text-center mb-4">Orders Overview</h1>
+
+  <!-- Orders List -->
+  <div class="order-cards row">
+    <div *ngFor="let order of filteredOrders" class="card order-card col-md-4 mb-4">
+      <div class="card-body">
+        <p><strong>Product:</strong> {{ order.productName }}</p>
+        <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+        <p><strong>Delivery Date:</strong> {{ order.deliveryDate | date }}</p>
+        <p><strong>Status:</strong> {{ order.approved ? 'Accepted' : 'Pending' }}</p>
+
+        <div class="text-right">
+          <button
+            *ngIf="!order.approved"
+            class="btn btn-success btn-sm"
+            (click)="approveOrder(order.id)"
+          >
+            Accept
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Orders Message -->
+  <div *ngIf="filteredOrders.length === 0" class="text-center text-muted mt-4">
+    <p>No orders available at the moment.</p>
+  </div>
+</div>

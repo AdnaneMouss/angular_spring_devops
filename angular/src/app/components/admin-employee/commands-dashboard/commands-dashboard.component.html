@@ -16,18 +16,7 @@
         </div>
         <div class="modal-body">
           <form (ngSubmit)="addOrder()" #orderForm="ngForm">
-            <div class="form-group">
-              <label for="orderer">Orderer:</label>
-              <select
-                id="orderer"
-                class="form-control"
-                [(ngModel)]="newOrder.ordererId"
-                name="ordererId"
-                required
-              >
-                <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
-              </select>
-            </div>
+            <!-- Supplier Dropdown -->
             <div class="form-group">
               <label for="supplier">Supplier:</label>
               <select
@@ -37,9 +26,16 @@
                 name="supplierId"
                 required
               >
-                <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+                <ng-container *ngFor="let user of users">
+                  <option *ngIf="user.type === 'Supplier'" [value]="user.id">
+                    {{ user.name }}
+                  </option>
+                </ng-container>
+
               </select>
             </div>
+
+            <!-- Product Dropdown -->
             <div class="form-group">
               <label for="product">Product:</label>
               <select
@@ -52,6 +48,8 @@
                 <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
               </select>
             </div>
+
+            <!-- Quantity -->
             <div class="form-group">
               <label for="quantity">Quantity:</label>
               <input
@@ -63,6 +61,8 @@
                 required
               />
             </div>
+
+            <!-- Delivery Date -->
             <div class="form-group">
               <label for="deliveryDate">Delivery Date:</label>
               <input
@@ -74,8 +74,10 @@
                 required
               />
             </div>
+
+            <!-- Form Actions -->
             <div class="text-right">
-              <button type="submit" class="btn btn-primary" [disabled]="orderForm.invalid">Add Order</button>
+              <button onclick="location.reload()" type="submit" class="btn btn-primary" [disabled]="orderForm.invalid">Add Order</button>
               <button type="button" class="btn btn-secondary" (click)="toggleForm()">Cancel</button>
             </div>
           </form>
@@ -89,14 +91,19 @@
     <div *ngFor="let order of orders" class="card order-card col-md-4 mb-4">
       <div class="card-body">
         <h5 class="card-title">Order ID: {{ order.id }}</h5>
-        <p><strong>Orderer:</strong> {{ getOrdererName(order.ordererId) }}</p>
+        <p><strong>Ordered by:</strong> {{ getOrdererName(order.ordererId) }}</p>
         <p><strong>Supplier:</strong> {{ getSupplierName(order.supplierId) }}</p>
         <p><strong>Product:</strong> {{ getProductName(order.productId) }}</p>
         <p><strong>Quantity:</strong> {{ order.quantity }}</p>
         <p><strong>Delivery Date:</strong> {{ order.deliveryDate | date }}</p>
         <p><strong>Status:</strong> {{ order.approved ? 'Accepted' : 'Pending' }}</p>
-        <button class="btn btn-danger btn-sm" (click)="deleteOrder(order.id)">
-          <i class="icon-delete fa fa-trash-alt"></i> Delete
+        <!-- Delete Button Only When Approved is False -->
+        <button
+          *ngIf="!order.approved"
+          class="btn btn-danger btn-sm"
+          (click)="deleteOrder(order.id)"
+        >
+          <i class="icon-delete fa fa-trash-alt"></i> Cancel order
         </button>
       </div>
     </div>

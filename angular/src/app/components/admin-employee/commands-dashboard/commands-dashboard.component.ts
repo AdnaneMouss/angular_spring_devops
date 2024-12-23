@@ -14,11 +14,13 @@ export class CommandsDashboardComponent implements OnInit {
   users: any[] = []; // To store users for orderers and suppliers
   products: any[] = []; // To store products
   errorMessage: string = '';
+  userID: number | null = null; // To store the connected user's ID
   newOrder: Order = {
     id: 0,
     ordererId: 0,
     supplierId: 0,
     productId: 0,
+    productName: '',
     quantity: 0,
     deliveryDate: null, // Change this to null or an initial date
     approved: false
@@ -33,9 +35,15 @@ export class CommandsDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.setConnectedUserID(); // Set the connected user's ID
     this.fetchOrders();
     this.fetchUsers();
     this.fetchProducts();
+  }
+
+  setConnectedUserID(): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userID = user?.id || null;
   }
 
   fetchOrders(): void {
@@ -76,6 +84,10 @@ export class CommandsDashboardComponent implements OnInit {
 
   toggleForm(): void {
     this.showForm = !this.showForm;
+    if (this.showForm && this.userID) {
+      // Automatically set the orderer ID to the connected user
+      this.newOrder.ordererId = this.userID;
+    }
   }
 
   addOrder(): void {
@@ -96,9 +108,10 @@ export class CommandsDashboardComponent implements OnInit {
   resetNewOrder(): void {
     this.newOrder = {
       id: 0,
-      ordererId: 0,
+      ordererId: this.userID || 0, // Ensure orderer ID stays set for connected user
       supplierId: 0,
       productId: 0,
+      productName: '',
       quantity: 0,
       deliveryDate: null,
       approved: false

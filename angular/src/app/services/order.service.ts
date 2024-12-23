@@ -56,4 +56,7 @@ export class OrderService {
   getProducts(): Observable<any[]> {
     return this.http.get<any[]>(`${this.productsUrl}/list`);
   }
+  approveOrder(id: number): Observable<string> {
+    return this.http.put<string>(`${this.baseUrl}/approve/${id}`, null);
+  }
 }
