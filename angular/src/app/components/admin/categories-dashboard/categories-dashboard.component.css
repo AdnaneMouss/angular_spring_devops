@@ -1,0 +1,120 @@
+/* Filters Section Styling */
+.filters {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.filters .form-label {
+  font-weight: bold;
+  color: #5d4037;
+}
+
+.filters .form-control {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.filters .btn-primary {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Luxury Background Styling */
+body {
+  background: linear-gradient(to right, #f3efe9, #e9e4d6);
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+/* Container Styling */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Add Category Button Placement */
+.add-category-btn {
+  position: relative;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.add-category-btn .btn-primary {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 30px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-category-btn .btn-primary:hover {
+  background-color: #5d4037;
+  transform: scale(1.05);
+}
+
+/* Category Cards Styling */
+.category-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.category-card {
+  background-color: #ffffff;
+  border: 1px solid #d7ccc8;
+  border-radius: 15px;
+  overflow: hidden;
+  width: 200px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  background-color: #f5f5f5;
+}
+
+.card-body {
+  padding: 15px;
+  text-align: center;
+  background-color: #fafafa;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #5d4037;
+  margin-bottom: 15px;
+}
+
+.btn-danger {
+  background-color: #e53935;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #b71c1c;
+  transform: scale(1.05);
+}

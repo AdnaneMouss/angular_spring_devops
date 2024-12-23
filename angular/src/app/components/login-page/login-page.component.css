@@ -1,0 +1,185 @@
+/* General Page Styling with Background Image */
+.page-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: url('../../../assets/back.jpeg') no-repeat center center fixed; /* Path to your background image */
+  background-size: cover; /* Ensures the image covers the entire page */
+  font-family: 'Roboto', sans-serif;
+  color: #fff; /* Text color */
+  position: relative;
+  overflow: hidden; /* Prevent overflow of background image */
+}
+
+/* Overlay for better contrast */
+.page-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+  z-index: 1;
+}
+
+/* Login Card Styling */
+.login-container {
+  position: relative; /* Ensures the card appears above the overlay */
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.9); /* Soft white background with transparency */
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  max-width: 400px;
+  width: 90%; /* Responsive for smaller screens */
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo Styling */
+.logo-container img {
+  max-width: 100px;
+  margin-bottom: 15px;
+  border-radius: 50%; /* Circular logo for modern look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.logo-container img:hover {
+  transform: scale(1.1);
+}
+
+/* Headings */
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: normal;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+/* Error Message Styling */
+.error-message {
+  color: #d9534f;
+  font-weight: bold;
+  margin-bottom: 15px;
+  background: rgba(255, 0, 0, 0.1); /* Light red background for error */
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Form Styling */
+.form-group {
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4facfe;
+  box-shadow: 0 0 8px rgba(79, 172, 254, 0.6);
+}
+
+/* Button Styling */
+button {
+  background-color: saddlebrown;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #00c6ff;
+  transform: scale(1.05);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 12px rgba(79, 172, 254, 0.8);
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px 15px;
+    background-color: saddlebrown;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover Glow Effect for Buttons */
+button:hover {
+  background-color: black;
+  box-shadow: 0 0 10px #007aff;
+}
+
+/* Extra Padding for Better Layout */
+.page-container .login-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

@@ -2,11 +2,9 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  type: UserType;
+  type: string;
+  gsm: string;
+  password: string;
+  image: string;
 }
 
-export enum UserType {
-  ADMIN = 'ADMIN',
-  EMPLOYEE = 'EMPLOYEE',
-  SUPPLIER = 'SUPPLIER'
-}

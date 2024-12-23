@@ -1,0 +1,109 @@
+<div class="container py-5">
+  <h1 class="text-center mb-4">Orders Overview</h1>
+
+  <!-- Add Order Button -->
+  <div class="add-order-btn text-center my-3">
+    <button class="btn btn-primary" (click)="toggleForm()">+ Add Order</button>
+  </div>
+
+  <!-- Modal for Add Order -->
+  <div class="modal" [ngClass]="{ 'show': showForm }" (click)="toggleForm()" *ngIf="showForm">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Order</h5>
+          <button type="button" class="close-btn" (click)="toggleForm()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="addOrder()" #orderForm="ngForm">
+            <div class="form-group">
+              <label for="orderer">Orderer:</label>
+              <select
+                id="orderer"
+                class="form-control"
+                [(ngModel)]="newOrder.ordererId"
+                name="ordererId"
+                required
+              >
+                <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="supplier">Supplier:</label>
+              <select
+                id="supplier"
+                class="form-control"
+                [(ngModel)]="newOrder.supplierId"
+                name="supplierId"
+                required
+              >
+                <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="product">Product:</label>
+              <select
+                id="product"
+                class="form-control"
+                [(ngModel)]="newOrder.productId"
+                name="productId"
+                required
+              >
+                <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Quantity:</label>
+              <input
+                type="number"
+                id="quantity"
+                class="form-control"
+                [(ngModel)]="newOrder.quantity"
+                name="quantity"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="deliveryDate">Delivery Date:</label>
+              <input
+                type="date"
+                id="deliveryDate"
+                class="form-control"
+                [(ngModel)]="newOrder.deliveryDate"
+                name="deliveryDate"
+                required
+              />
+            </div>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary" [disabled]="orderForm.invalid">Add Order</button>
+              <button type="button" class="btn btn-secondary" (click)="toggleForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders List -->
+  <div class="order-cards row">
+    <div *ngFor="let order of orders" class="card order-card col-md-4 mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Order ID: {{ order.id }}</h5>
+        <p><strong>Orderer:</strong> {{ getOrdererName(order.ordererId) }}</p>
+        <p><strong>Supplier:</strong> {{ getSupplierName(order.supplierId) }}</p>
+        <p><strong>Product:</strong> {{ getProductName(order.productId) }}</p>
+        <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+        <p><strong>Delivery Date:</strong> {{ order.deliveryDate | date }}</p>
+        <p><strong>Status:</strong> {{ order.approved ? 'Accepted' : 'Pending' }}</p>
+        <button class="btn btn-danger btn-sm" (click)="deleteOrder(order.id)">
+          <i class="icon-delete fa fa-trash-alt"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Orders Message -->
+  <div *ngIf="orders.length === 0" class="text-center text-muted mt-4">
+    <p>No orders available at the moment.</p>
+  </div>
+</div>

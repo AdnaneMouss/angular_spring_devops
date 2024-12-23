@@ -1,0 +1,94 @@
+<div class="container py-5">
+  <h1 class="text-center mb-4">Products Overview</h1>
+
+  <!-- Sorting and Filtering Section -->
+  <div class="filter-sort-section d-flex justify-content-between align-items-center mb-4">
+    <div class="filter-dropdown">
+      <label for="categoryFilter"><strong>Filter by Category:</strong></label>
+      <select id="categoryFilter" [(ngModel)]="filterCategoryId" (change)="filterByCategory()" class="form-control">
+        <option [value]="null">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+      </select>
+    </div>
+    <div class="sort-dropdown">
+      <label for="sortOrder"><strong>Sort by Price:</strong></label>
+      <select id="sortOrder" [(ngModel)]="sortOrder" (change)="sortProducts()" class="form-control">
+        <option value="Low-High">Price: Low to High</option>
+        <option value="High-Low">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Add Product Button -->
+  <div class="add-product-btn text-center my-3">
+    <button class="btn btn-primary" (click)="toggleForm()">+ Add Product</button>
+  </div>
+
+  <!-- Modal for Add Product -->
+  <div class="modal" [ngClass]="{ 'show': showForm }" (click)="toggleForm()" *ngIf="showForm">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Product</h5>
+          <button type="button" class="close-btn" (click)="toggleForm()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="addProduct()" #productForm="ngForm">
+            <div class="form-group">
+              <label for="name">Product Name:</label>
+              <input type="text" id="name" class="form-control" [(ngModel)]="newProduct.name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <textarea id="description" class="form-control" [(ngModel)]="newProduct.description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="price">Price:</label>
+              <input type="number" id="price" class="form-control" [(ngModel)]="newProduct.price" name="price" required />
+            </div>
+            <div class="form-group">
+              <label for="stock">Price:</label>
+              <input type="number" id="stock" class="form-control" [(ngModel)]="newProduct.stock" name="stock" required />
+            </div>
+            <div class="form-group">
+              <label for="category">Category:</label>
+              <select id="category" class="form-control" [(ngModel)]="newProduct.categoryId" name="categoryId" required>
+                <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="image">Image URL:</label>
+              <input type="text" id="image" class="form-control" [(ngModel)]="newProduct.image" name="image" required />
+            </div>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid">Add Product</button>
+              <button type="button" class="btn btn-secondary" (click)="toggleForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products List -->
+  <div class="product-cards row">
+    <div *ngFor="let product of filteredProducts" class="card product-card col-md-4 mb-4">
+      <img [src]="product.image || 'assets/default-image.png'" class="card-img-top" alt="{{ product.name }}" />
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text" style="text-align: justify">{{ product.description }}</p>
+        <p><strong>Stock:</strong>{{ product.stock }}</p>
+        <p><strong>Price:</strong> ${{ product.price }}</p>
+        <p><strong>Category:</strong> {{ getCategoryName(product.categoryId) }}</p>
+        <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">
+          <i class="icon-delete fa fa-trash-alt"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Products Message -->
+  <div *ngIf="filteredProducts.length === 0" class="text-center text-muted mt-4">
+    <p>No products available at the moment.</p>
+  </div>
+</div>

@@ -15,21 +15,25 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String gsm;
+    private String image;
+    private String type;
 
-    @Enumerated(EnumType.STRING)
-    private UserType type;
+    @OneToMany(mappedBy = "orderer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Orders> order;
 
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Orders> supplierorder;
 
 
-    public User(int id, String name, String email, String password, UserType type, List<Order> orders) {
+    public User(int id, String name, String email, String password, String type,String image, List<Orders> orders) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.type = type;
-        this.orders = orders;
+        this.order = orders;
+        this.image=image;
     }
     public User(){
     }
@@ -67,21 +71,43 @@ public class User {
         this.password = password;
     }
 
-    public UserType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(UserType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<Orders> getOrders() {
+        return order;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setOrders(List<Orders> orders) {
+        this.order = orders;
     }
 
+    public String getGsm() {
+        return gsm;
+    }
+    public void setGsm(String gsm) {
+        this.gsm = gsm;
+    }
+
+    public List<Orders> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Orders> order) {
+        this.order = order;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
 

@@ -1,1 +1,157 @@
-<p>users-dashboard works!</p>
+<div class="container py-5">
+  <h1 class="text-center mb-4">Users Overview</h1>
+
+  <!-- Filters and Sorting -->
+  <div class="filters mb-4">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="filterType" class="form-label">Filter by Type:</label>
+        <select
+          id="filterType"
+          class="form-select"
+          [(ngModel)]="selectedFilter"
+          (change)="filterByType()"
+        >
+          <option value="">All</option>
+          <option *ngFor="let type of userTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Sort by Name:</label>
+        <button class="btn btn-primary w-100" (click)="sortByName()">Sort A-Z</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Add Category Button -->
+  <div class="add-category-btn">
+    <button class="btn btn-primary" (click)="toggleForm()">+ Add User</button>
+  </div>
+
+  <!-- Modal for Add Category Form -->
+  <div class="modal" [ngClass]="{ 'show': showForm }" (click)="toggleForm()" *ngIf="showForm">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Category</h5>
+          <button type="button" class="close-btn" (click)="toggleForm()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="addUser()" #categoryForm="ngForm">
+            <!-- Name Field -->
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                class="form-control"
+                [(ngModel)]="newUser.name"
+                name="name"
+                required
+              />
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                [(ngModel)]="newUser.email"
+                name="email"
+                required
+              />
+            </div>
+
+            <!-- GSM (Phone) Field -->
+            <div class="form-group">
+              <label for="gsm">Phone</label>
+              <input
+                type="text"
+                id="gsm"
+                class="form-control"
+                [(ngModel)]="newUser.gsm"
+                name="gsm"
+                required
+              />
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                [(ngModel)]="newUser.password"
+                name="password"
+                required
+                minlength="6"
+              />
+              <div *ngIf="categoryForm.controls['password']?.invalid && categoryForm.controls['password']?.touched" class="text-danger">
+                Password must be at least 6 characters long.
+              </div>
+            </div>
+
+            <!-- Type Field -->
+            <div class="form-group">
+              <label for="type">Type</label>
+              <select id="type" class="form-control" [(ngModel)]="newUser.type" name="type" required>
+                <option value="Admin">Admin</option>
+                <option value="Employee">Employee</option>
+                <option value="Manager">Supplier</option>
+              </select>
+            </div>
+
+            <!-- Image Field -->
+            <div class="form-group">
+              <label for="image">Image URL</label>
+              <input
+                type="text"
+                id="image"
+                class="form-control"
+                [(ngModel)]="newUser.image"
+                name="image"
+                required
+              />
+            </div>
+
+            <!-- Buttons -->
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid">Add User</button>
+              <button type="button" class="btn btn-secondary" (click)="toggleForm()">Cancel</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories List -->
+  <div class="category-cards row">
+    <div *ngFor="let user of filteredUsers" class="card category-card col-md-4 mb-4">
+      <img
+        [src]="user.image || 'assets/default-image.png'"
+        class="card-img-top"
+        alt="{{ user.name || 'User' }}"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ user.name || 'Unnamed User' }}</h5>
+        <h5 class="card-title">Email: {{ user.email }}</h5>
+        <h5 class="card-title">Password: {{ user.password }}</h5>
+        <h5 class="card-title">Gsm: {{ user.gsm }}</h5>
+        <h5 class="card-title">User Type: {{ user.type }}</h5>
+        <button *ngIf="user.type !== 'Adin'" class="btn btn-danger btn-sm" (click)="deleteUser(user.id)">
+          <i class="icon-delete fa fa-trash-alt"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Categories Message -->
+  <div *ngIf="filteredUsers.length === 0" class="text-center text-muted mt-4">
+    <p>No categories available at the moment.</p>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+/* Navbar Styling */
+.custom-navbar {
+  background-color: #5D4037; /* Brown background color */
+  color: #FFF; /* White text color */
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Navbar Container */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo Section */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand .brand-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #FFF; /* White color for the logo text */
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-brand .logo-image {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+  border: 2px solid #FFF;
+}
+
+/* Navigation Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu li {
+  margin: 0 10px;
+}
+
+.navbar-menu a {
+  text-decoration: none;
+  color: #FFF;
+  font-size: 16px;
+  padding: 8px 15px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-menu a:hover,
+.navbar-menu a.active {
+  background-color: #3E2723; /* Darker brown for hover and active states */
+  color: #FFF; /* White text for contrast */
+}
+
+/* User Account Links */
+.account-menu {
+  border-left: 1px solid #FFF;
+  padding-left: 20px;
+}
+
+.user-info {
+  font-size: 14px;
+  font-weight: 300;
+  margin-right: 10px;
+}
+
+.logout-link {
+  text-decoration: none;
+  color: #FFD54F; /* Golden accent for the logout link */
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.logout-link:hover {
+  color: #FFF; /* White color on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .navbar-menu li {
+    margin: 5px 0;
+  }
+}

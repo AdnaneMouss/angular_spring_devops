@@ -1,7 +1,9 @@
 export interface Order {
   id: number;
-  description: string;
   approved: boolean;
-  userId: number;
-  productId: number;
+  quantity: number;
+  deliveryDate: Date | null; // Use `Date` type for frontend
+  ordererId: number; // ID of the user who placed the order
+  supplierId: number; // ID of the supplier handling the order
+  productId: number; // ID of the product in the order
 }
