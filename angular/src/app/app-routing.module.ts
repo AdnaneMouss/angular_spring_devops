@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'products', component: ProductsDashboardComponent, canActivate: [AuthGuard], data: { roles: ['Admin', 'Employee'] } },
   { path: 'categories', component: CategoriesDashboardComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
   { path: 'commands', component: CommandsDashboardComponent, canActivate: [AuthGuard], data: { roles: ['Admin','Employee'] } },
-  { path: 'commandsSupplier', component: CommandsPageComponent, canActivate: [AuthGuard], data: { roles: ['Manager'] } },
+  { path: 'commandsSupplier', component: CommandsPageComponent, canActivate: [AuthGuard], data: { roles: ['Supplier'] } },
   { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
 @NgModule({
