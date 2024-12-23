@@ -35,7 +35,7 @@ this.router.navigate(['/users']);
 else if(response.type=="Employee"){
   this.router.navigate(['/products']);
 }
-else if(response.type=="Supplier"){
+else if(response.type=="Manager"){
   this.router.navigate(['/commandsSupplier']);
 }
       },
