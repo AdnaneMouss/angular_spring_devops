@@ -1,0 +1,18 @@
+services:
+  angular-app:
+    build:
+      context: ./angular  # Path to Angular project folder
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80" # Maps Nginx (Angular) port to localhost:4200
+    restart: always # Automatically restart the container if it stops
+    depends_on:
+      - springboot-app # Ensure Spring Boot service starts first
+
+  springboot-app:
+    build:
+      context: ./inventoryapp/inventoryapp  # Path to Spring Boot project folder
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Maps Spring Boot port to localhost:8080
+    restart: always # Automatically restart the container if it stops
