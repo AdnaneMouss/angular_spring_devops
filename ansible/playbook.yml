@@ -1,0 +1,81 @@
+- name: Déployer le système d'inventaire
+  hosts: localhost
+  become: true
+  become_user: root
+  vars:
+    ansible_become_password: "{{ lookup('file', 'sudo_password.txt') }}"
+  tasks:
+    - name: Installer Node.js via Homebrew
+      homebrew:
+        name: node
+        state: present
+    - name: Installer npm via Homebrew
+      homebrew:
+        name: npm
+        state: present
+    - name: Cloner le repository Angular
+      git:
+        repo: 'https://github.com/AdnaneMouss/angular_spring_devops.git'
+        dest: '/var/www/angular-app'
+        version: 'main'
+    - name: Installer les dépendances de l'application Angular
+      command: npm install
+      args:
+        chdir: /var/www/angular-app
+    - name: Construire l'application Angular
+      command: npm run build --prod
+      args:
+        chdir: /var/www/angular-app
+    - name: Copier les fichiers vers le serveur de production
+      copy:
+        src: /var/www/angular-app/dist/
+        dest: /var/www/html/
+        remote_src: yes
+    - name: Installer OpenJDK 17 via Homebrew
+      homebrew:
+        name: openjdk@17
+        state: present
+    - name: Cloner le repository Spring Boot
+      git:
+        repo: 'https://github.com/AdnaneMouss/angular_spring_devops.git'
+        dest: '/var/www/springboot-backend'
+        version: 'main'
+    - name: Construire l'application Spring Boot
+      command: ./mvnw clean install
+      args:
+        chdir: /var/www/springboot-backend
+    - name: Lancer l'application Spring Boot
+      command: java -jar target/angular_spring_devops.jar
+      args:
+        chdir: /var/www/springboot-backend
+        creates: /var/www/springboot-backend/target/angular_spring_devops.jar
+    - name: Installer MySQL
+      homebrew:
+        name: mysql
+        state: present
+    - name: Démarrer MySQL
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+    - name: Créer la base de données 'inventory'
+      mysql_db:
+        name: inventory
+        state: present
+    - name: Configurer la connexion à la base de données dans Spring Boot
+      lineinfile:
+        path: /var/www/springboot-backend/src/main/resources/application.properties
+        regexp: '^spring.datasource.url=.*'
+        line: 'spring.datasource.url=jdbc:mysql://localhost:3306/inventory'
+    - name: Installer phpMyAdmin via Homebrew
+      homebrew:
+        name: phpmyadmin
+        state: present
+    - name: Configurer phpMyAdmin
+      copy:
+        src: /etc/phpmyadmin/apache.conf
+        dest: /etc/apache2/conf-available/phpmyadmin.conf
+    - name: Redémarrer Apache pour appliquer les modifications
+      service:
+        name: apache2
+        state: restarted
