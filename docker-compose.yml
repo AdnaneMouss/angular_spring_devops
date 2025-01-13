@@ -1,13 +1,15 @@
-version: '3'
+version: '3.8'
 services:
-  clair:
-    image: quay.io/projectquay/clair:latest
+  fluentd:
+    image: fluent/fluentd:v1.16-1
     ports:
-      - "6069:6069"
-      - "6061:6061"
-    restart: always
+      - "24224:24224"    # Port Fluentd pour les logs
+      - "24224:24224/udp"
+    volumes:
+      - ./fluentd/fluentd.conf:/fluentd/etc/fluentd.conf
+    networks:
+      - app-network
 
-
-
-
-
+networks:
+  app-network:
+    driver: bridge
