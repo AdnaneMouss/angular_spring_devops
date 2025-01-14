@@ -114,4 +114,10 @@ public class OrdersDTO {
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
+    public void setStatus(String pending) {
+    }
+
+    public void setDescription(String testOrder) {
+    }
 }
