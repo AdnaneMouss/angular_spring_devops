@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: fluentd
+  template:
+    metadata:
+      labels:
+        app: fluentd
+    spec:
+      containers:
+        - name: fluentd
+          image: fluent/fluentd:v1.14-debian-1
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: config-volume
+              mountPath: /fluentd/etc
+              subPath: fluentd.conf
+            - name: log-volume
+              mountPath: /fluentd/log
+      volumes:
+        - name: config-volume
+          configMap:
+            name: fluentd-config
+            items:
+              - key: fluentd.conf
+                path: fluentd.conf
+        - name: log-volume
+          emptyDir: {}

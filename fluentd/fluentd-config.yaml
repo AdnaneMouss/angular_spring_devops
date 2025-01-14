@@ -1,0 +1,31 @@
+# Input source for Spring Boot logs (from stdout of the Spring Boot container)
+<source>
+@type tail
+path /var/log/containers/*springboot-container*.log
+pos_file /fluentd/log/fluentd_springboot.pos
+tag springboot.logs
+format json
+</source>
+  
+  # Input source for Angular logs (from stdout of the Angular container)
+<source>
+@type tail
+path /var/log/containers/*angular-container*.log
+pos_file /fluentd/log/fluentd_angular.pos
+tag angular.logs
+format json
+</source>
+  
+  # Output to file for Spring Boot logs
+<match springboot.logs>
+@type file
+path /fluentd/log/springboot_output.log
+append true
+</match>
+  
+  # Output to file for Angular logs
+<match angular.logs>
+@type file
+path /fluentd/log/angular_output.log
+append true
+</match>

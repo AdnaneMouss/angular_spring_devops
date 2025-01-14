@@ -1,4 +1,0 @@
-database:
-  connectionString: host=localhost port=5432 user=clair password=clair dbname=clair sslmode=disable
-clair:
-  updateInterval: 1h
