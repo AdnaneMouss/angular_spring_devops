@@ -1,6 +1,7 @@
 package uir.ac.ma.inventory.inventoryapp.controller;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,13 @@ import uir.ac.ma.inventory.inventoryapp.service.OrderService;
 
 import java.util.Arrays;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(OrderController.class)
-public class OrderControllerTest {
+class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -25,23 +28,53 @@ public class OrderControllerTest {
     @MockBean
     private OrderService orderService;
 
-    @Test
-    public void testGetAllOrders() throws Exception {
-        Mockito.when(orderService.getAllOrders())
-                .thenReturn(Arrays.asList(new OrdersDTO(1, "Order1"), new OrdersDTO(2, "Order2")));
+    private OrdersDTO ordersDTO;
 
-        mockMvc.perform(get("/api/orders/list"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Order1"))
-                .andExpect(jsonPath("$[1].name").value("Order2"));
+    @BeforeEach
+    void setUp() {
+        ordersDTO = new OrdersDTO();
+        ordersDTO.setId(1);
+        ordersDTO.setStatus("Pending");
+        ordersDTO.setDescription("Test Order");
     }
 
     @Test
-    public void testAddOrder() throws Exception {
+    void testGetAllOrders() throws Exception {
+        when(orderService.getAllOrders()).thenReturn(Arrays.asList(ordersDTO.toOrder()));
+
+        mockMvc.perform(get("/api/orders/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].status").value("Pending"))
+                .andExpect(jsonPath("$[0].description").value("Test Order"));
+    }
+
+    @Test
+    void testAddOrder() throws Exception {
+        doNothing().when(orderService).addOrder(Mockito.any(OrdersDTO.class));
+
         mockMvc.perform(post("/api/orders/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"NewOrder\"}"))
+                        .content(new ObjectMapper().writeValueAsString(ordersDTO)))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Order added successfully."));
+    }
+
+    @Test
+    void testDeleteOrder() throws Exception {
+        doNothing().when(orderService).deleteOrderById(1);
+
+        mockMvc.perform(delete("/api/orders/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Order with ID 1 deleted successfully."));
+    }
+
+    @Test
+    void testApproveOrder() throws Exception {
+        doNothing().when(orderService).approveOrder(1);
+
+        mockMvc.perform(put("/api/orders/approve/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Order with ID 1 approved successfully."));
     }
 }
