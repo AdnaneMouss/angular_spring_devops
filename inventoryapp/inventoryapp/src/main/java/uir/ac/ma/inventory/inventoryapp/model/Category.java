@@ -22,7 +22,11 @@ public class Category {
         this.image = image;
     }
 
-    public Category(){}
+    public Category(int i, String electronics){}
+
+    public Category() {
+
+    }
 
     // Getters and setters
     public int getId() {

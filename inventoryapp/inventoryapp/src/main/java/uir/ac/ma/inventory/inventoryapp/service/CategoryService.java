@@ -32,7 +32,7 @@ public class CategoryService {
 
     @Transactional
     public void addcategory(CategoryDTO categoryDTO) {
-        Category category = new Category();
+        Category category = new Category(1, "Electronics");
         category.setName(categoryDTO.getName());
         category.setImage(categoryDTO.getImage());
         categoryRepository.save(category);
